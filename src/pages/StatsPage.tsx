@@ -4,28 +4,11 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Progress } from "@/components/ui/progress";
 import { PieChart, Pie, Cell, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip } from "recharts";
 import { CheckCircle, Circle, BarChart as BarChartIcon, ClipboardList } from "lucide-react";
-import { Link } from "@tanstack/react-router";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useQuery } from "@tanstack/react-query";
 
 const StatsPage = () => {
-  const { lists: rawLists, getTodoCountByStatus } = useTodo();
-  
-  // Use TanStack Query to get the lists data
-  const { data: lists, isLoading } = useQuery({
-    queryKey: ['todoLists'],
-    queryFn: () => rawLists,
-    // Since we're using localStorage in the context, this is effectively synchronous
-    // but we're using TanStack Query for consistency and future API integration
-  });
-  
-  if (isLoading || !lists) {
-    return (
-      <div className="min-h-screen flex items-center justify-center">
-        <p>Loading...</p>
-      </div>
-    );
-  }
+  const { lists, getTodoCountByStatus } = useTodo();
   
   const totalTasks = lists.reduce((acc, list) => acc + list.todos.length, 0);
   const completedTasks = lists.reduce((acc, list) => {

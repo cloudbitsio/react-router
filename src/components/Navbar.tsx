@@ -1,38 +1,36 @@
 
-import { Home, BarChart2 } from "lucide-react";
-import { Link, useRouter } from "@tanstack/react-router";
+import { Link, useLocation } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { ClipboardList, BarChart } from "lucide-react";
 
 export const Navbar = () => {
-  const router = useRouter();
-  const pathname = router.state.location.pathname;
+  const location = useLocation();
+  const isStatsPage = location.pathname === "/stats";
   
   return (
-    <div className="fixed bottom-0 left-0 right-0 bg-background border-t border-border">
-      <div className="container max-w-md mx-auto">
-        <div className="flex items-center justify-around h-16">
-          <Link 
-            to="/" 
-            className={`flex flex-col items-center justify-center w-full h-full text-xs font-medium transition-colors ${
-              pathname === "/" ? "text-primary" : "text-muted-foreground hover:text-primary"
-            }`}
-            activeProps={{ className: "text-primary" }}
-          >
-            <Home className="h-5 w-5 mb-1" />
-            <span>Tasks</span>
+    <nav className="fixed bottom-0 left-0 right-0 py-4 bg-background/80 backdrop-blur-lg border-t border-border">
+      <div className="container max-w-md mx-auto flex justify-center">
+        <div className="flex gap-4">
+          <Link to="/">
+            <Button 
+              variant={!isStatsPage ? "default" : "outline"} 
+              className="rounded-full px-6"
+            >
+              <ClipboardList className="h-4 w-4 mr-2" />
+              Tasks
+            </Button>
           </Link>
-          
-          <Link 
-            to="/stats" 
-            className={`flex flex-col items-center justify-center w-full h-full text-xs font-medium transition-colors ${
-              pathname === "/stats" ? "text-primary" : "text-muted-foreground hover:text-primary"
-            }`}
-            activeProps={{ className: "text-primary" }}
-          >
-            <BarChart2 className="h-5 w-5 mb-1" />
-            <span>Stats</span>
+          <Link to="/stats">
+            <Button 
+              variant={isStatsPage ? "default" : "outline"}
+              className="rounded-full px-6"
+            >
+              <BarChart className="h-4 w-4 mr-2" />
+              Stats
+            </Button>
           </Link>
         </div>
       </div>
-    </div>
+    </nav>
   );
 };

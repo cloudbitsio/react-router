@@ -4,20 +4,12 @@ import { TodoInput } from "@/components/TodoInput";
 import { TodoList } from "@/components/TodoList";
 import { StatusBar } from "@/components/StatusBar";
 import { ListSelector } from "@/components/ListSelector";
-import { useQuery } from "@tanstack/react-query";
 
 const TodoPage = () => {
   const { getListById, currentListId } = useTodo();
+  const currentList = getListById(currentListId);
   
-  // Use TanStack Query to manage the current list data
-  const { data: currentList, isLoading } = useQuery({
-    queryKey: ['todoList', currentListId],
-    queryFn: () => getListById(currentListId),
-    // Since we're using localStorage in the context, this is effectively synchronous
-    // but we're using TanStack Query for consistency and future API integration
-  });
-  
-  if (isLoading || !currentList) {
+  if (!currentList) {
     return (
       <div className="min-h-screen flex items-center justify-center">
         <p>Loading...</p>
