@@ -12,3 +12,8 @@ export interface TodoList {
   todos: Todo[];
   createdAt: Date;
 }
+
+// Route types for TanStack Router
+export interface TodoPageParams {
+  listId?: string;
+}
